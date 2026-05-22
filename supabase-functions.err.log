@@ -1,0 +1,14 @@
+github.com/supabase/cli/internal/utils/misc.go:156 (0x7ff6d6c33605)
+github.com/supabase/cli/internal/utils/misc.go:145 (0x7ff6d7004a97)
+github.com/supabase/cli/internal/functions/serve/serve.go:108 (0x7ff6d7004aa1)
+github.com/supabase/cli/internal/functions/serve/serve.go:82 (0x7ff6d70043d1)
+github.com/supabase/cli/cmd/functions.go:144 (0x7ff6d865c115)
+github.com/spf13/cobra@v1.10.2/command.go:1015 (0x7ff6d5fafc82)
+github.com/spf13/cobra@v1.10.2/command.go:1148 (0x7ff6d5fb05c5)
+github.com/supabase/cli/cmd/root.go:173 (0x7ff6d866d446)
+github.com/supabase/cli/main.go:11 (0x7ff6d86725ef)
+internal/runtime/atomic/types.go:194 (0x7ff6d5dc897d)
+runtime/asm_amd64.s:1693 (0x7ff6d5e02901)
+
+failed to inspect service: error during connect: in the default daemon configuration on Windows, the docker client must be run with elevated privileges to connect: Get "http://%2F%2F.%2Fpipe%2Fdocker_engine/v1.51/containers/supabase_db_project/json": open //./pipe/docker_engine: The system cannot find the file specified.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop

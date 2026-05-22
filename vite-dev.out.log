@@ -1,0 +1,118 @@
+
+> vite-react-typescript-starter@0.0.0 dev
+> vite --host 127.0.0.1
+
+
+  [32m[1mVITE[22m v5.4.8[39m  [2mready in [0m[1m3420[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5173[22m/[39m
+[2m01:29:34[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m01:29:34[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m01:29:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:29:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:29:55[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:29:58[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:30:02[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:30:11[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m01:30:36[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m01:30:36[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:30:36[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:30:36[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m01:30:36[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:30:36[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m01:33:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/AuthPage.tsx[22m
+[2m01:33:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/AuthPage.tsx[22m
+[2m01:33:46[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/MessageBubble.tsx, /src/index.css[22m
+[2m01:33:55[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/MessageBubble.tsx, /src/index.css[22m
+[2m01:34:03[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ChatArea.tsx, /src/index.css[22m
+[2m01:34:07[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ChatArea.tsx, /src/index.css[22m
+[2m01:34:16[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:34:20[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:34:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:35:38[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:35:39[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:35:39[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/AuthPage.tsx[22m
+[2m01:35:39[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/MessageBubble.tsx, /src/index.css[22m
+[2m01:35:39[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:35:39[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:35:39[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ChatArea.tsx, /src/index.css[22m
+[2m01:40:40[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/AuthPage.tsx[22m
+[2m01:41:10[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m01:41:18[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:41:23[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:41:27[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:41:31[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:42:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:42:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:42:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m01:42:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:42:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/AuthPage.tsx[22m
+[2m01:43:04[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ChatArea.tsx, /src/index.css[22m
+[2m01:43:08[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ChatArea.tsx, /src/index.css[22m
+[2m01:43:15[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ChatArea.tsx, /src/index.css[22m
+[2m01:45:06[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ChatArea.tsx, /src/index.css[22m
+[2m01:49:05[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/MessageBubble.tsx, /src/index.css[22m
+[2m01:49:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/MessageBubble.tsx, /src/index.css[22m
+[2m01:49:23[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ChatArea.tsx, /src/index.css[22m
+[2m01:49:27[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ChatArea.tsx, /src/index.css[22m
+[2m01:49:30[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ChatArea.tsx, /src/index.css[22m
+[2m01:49:36[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ChatArea.tsx, /src/index.css[22m
+[2m01:49:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:49:47[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:49:53[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m01:49:58[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m01:50:05[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m01:50:21[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m01:50:33[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:51:29[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:51:29[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m01:51:29[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m01:51:29[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/MessageBubble.tsx, /src/index.css[22m
+[2m01:51:29[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ChatArea.tsx, /src/index.css[22m
+[2m01:59:13[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m01:59:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m07:03:56[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m07:04:14[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/AuthPage.tsx, /src/index.css[22m
+[2m07:04:23[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m07:05:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m07:06:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m07:06:19[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m07:06:50[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m07:07:00[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m07:07:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/AuthPage.tsx[22m
+[2m07:08:11[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m07:08:36[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m07:08:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m07:28:35[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m07:28:36[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m07:28:44[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m07:28:47[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m07:28:51[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m07:28:55[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m07:28:57[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m07:29:19[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m07:29:22[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m07:29:27[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m08:55:19[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m08:56:15[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m08:57:01[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ChatArea.tsx, /src/index.css[22m
+[2m08:58:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m08:58:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m22:23:31[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m22:23:32[22m [36m[1m[vite][22m[39m server restarted.
+[2m23:58:09[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m21:19:57[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m21:19:57[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m21:19:57[22m [36m[1m[vite][22m[39m server restarted.
+[2m21:37:09[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m21:37:09[22m [36m[1m[vite][22m[39m server restarted.
+[2m21:37:23[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m21:37:23[22m [36m[1m[vite][22m[39m server restarted.
+[2m22:00:55[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m22:01:32[22m [36m[1m[vite][22m[39m server restarted.
+[2m22:31:36[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m22:31:37[22m [36m[1m[vite][22m[39m server restarted.
+[2m22:31:59[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m22:31:59[22m [36m[1m[vite][22m[39m server restarted.
+[2m22:32:08[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m22:32:09[22m [36m[1m[vite][22m[39m server restarted.
