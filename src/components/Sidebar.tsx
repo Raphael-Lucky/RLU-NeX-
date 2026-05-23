@@ -8,7 +8,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
-import { ThemeToggle } from './ThemeToggle';
+
 
 interface SidebarProps {
   currentPage: string;
@@ -78,9 +78,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate }) => 
 
       {/* Footer */}
       <div className={`mt-auto space-y-4 px-2 pb-8`}>
-        <div className={`flex ${isOpen ? 'justify-start px-2' : 'justify-center'}`}>
-          <ThemeToggle />
-        </div>
+
         <button
           onClick={() => onNavigate('logout')}
           title={!isOpen ? 'Logout' : undefined}
