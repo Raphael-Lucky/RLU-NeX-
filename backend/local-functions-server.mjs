@@ -16,7 +16,7 @@ const GOOGLE_SEARCH_ENGINE_PLACEHOLDER = 'your_search_engine_id_here';
 const ENABLE_EXTERNAL_AI = process.env.ENABLE_EXTERNAL_AI === 'true';
 const ENABLE_GOOGLE_SEARCH = process.env.ENABLE_GOOGLE_SEARCH === 'true';
 const LOCAL_AI_PROVIDER = (process.env.LOCAL_AI_PROVIDER || 'ollama').toLowerCase();
-const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || 'http://127.0.0.1:11434';
+const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || 'https://grant-hydrogen-parade-aaron.trycloudflare.com';
 const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama3.2';
 
 const corsHeaders = {
