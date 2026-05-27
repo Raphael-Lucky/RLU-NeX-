@@ -7,17 +7,17 @@ import { createClient } from '@supabase/supabase-js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 loadEnvFile(path.resolve(__dirname, '..', '.env'));
 
-const PORT = Number(process.env.PORT || 54321);
-const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
-const GEMINI_MODEL = 'gemini-2.0-flash';
+const PORT = Number(readEnv('PORT') || 54321);
+const SUPABASE_URL = readEnv('SUPABASE_URL') || readEnv('VITE_SUPABASE_URL');
+const SUPABASE_ANON_KEY = readEnv('SUPABASE_ANON_KEY') || readEnv('VITE_SUPABASE_ANON_KEY');
+const GEMINI_MODEL = readEnv('GEMINI_MODEL') || 'gemini-2.0-flash';
 const GOOGLE_SEARCH_ENDPOINT = 'https://www.googleapis.com/customsearch/v1';
 const GOOGLE_SEARCH_ENGINE_PLACEHOLDER = 'your_search_engine_id_here';
-const ENABLE_EXTERNAL_AI = process.env.ENABLE_EXTERNAL_AI === 'true';
-const ENABLE_GOOGLE_SEARCH = process.env.ENABLE_GOOGLE_SEARCH === 'true';
-const LOCAL_AI_PROVIDER = (process.env.LOCAL_AI_PROVIDER || 'ollama').toLowerCase();
-const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || 'https://grant-hydrogen-parade-aaron.trycloudflare.com';
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama3.2';
+const ENABLE_EXTERNAL_AI = readBooleanEnv('ENABLE_EXTERNAL_AI');
+const ENABLE_GOOGLE_SEARCH = readBooleanEnv('ENABLE_GOOGLE_SEARCH');
+const LOCAL_AI_PROVIDER = (readEnv('LOCAL_AI_PROVIDER') || 'ollama').toLowerCase();
+const OLLAMA_BASE_URL = readEnv('OLLAMA_BASE_URL');
+const OLLAMA_MODEL = readEnv('OLLAMA_MODEL');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -36,7 +36,7 @@ function loadEnvFile(filePath) {
   const envText = fs.readFileSync(filePath, 'utf8');
   for (const rawLine of envText.split(/\r?\n/)) {
     const line = rawLine.trim();
-    if (!line || line.startsWith('#')) continue;
+    if (!line || line.startsWith('#') || line.startsWith('//')) continue;
 
     const match = line.match(/^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/);
     if (!match) continue;
@@ -54,6 +54,22 @@ function loadEnvFile(filePath) {
 
     process.env[key] = value;
   }
+}
+
+function readEnv(name) {
+  return String(process.env[name] || '').trim();
+}
+
+function readBooleanEnv(name) {
+  return ['1', 'true', 'yes', 'on'].includes(readEnv(name).toLowerCase());
+}
+
+function getGeminiApiKey() {
+  return (
+    readEnv('GEMINI_API_KEY') ||
+    readEnv('GOOGLE_GENERATIVE_AI_API_KEY') ||
+    readEnv('GOOGLE_API_KEY')
+  );
 }
 
 function readBody(req) {
@@ -89,7 +105,7 @@ function generateFallbackResponse(messages, firstName) {
     return `I can help you with writing, coding, analysis, math, research, and creative tasks${nameStr}. Ask me anything and I'll do my best.`;
   }
 
-  return `Thanks for your message${nameStr}! I'm Nex, your AI assistant. The local backend is running. To answer with a local AI model, start Ollama and run the configured model (${OLLAMA_MODEL}).`;
+  return `Thanks for your message${nameStr}! I'm Nex, your AI assistant. To use local AI, start Ollama and run the configured model (${OLLAMA_MODEL || 'none set'}).`;
 }
 
 class GoogleSearchError extends Error {
@@ -168,8 +184,8 @@ function getGoogleSearchErrorCode(status, errorPayload, errorText) {
 }
 
 async function searchGoogle(query) {
-  const apiKey = process.env.GOOGLE_SEARCH_API_KEY || process.env.GEMINI_API_KEY;
-  const searchEngineId = process.env.GOOGLE_SEARCH_ENGINE_ID;
+  const apiKey = readEnv('GOOGLE_SEARCH_API_KEY') || getGeminiApiKey();
+  const searchEngineId = readEnv('GOOGLE_SEARCH_ENGINE_ID');
 
   if (!apiKey) {
     throw new GoogleSearchError(
@@ -265,17 +281,79 @@ function describeGoogleSearchIssue(error) {
   return 'Google search is configured, but the Google Search API request failed. Check backend.err.log for the detailed Google response.';
 }
 
+function parseJsonSafe(value) {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
+
+function sanitizeErrorText(value) {
+  const key = getGeminiApiKey();
+  const text = String(value || '');
+  return key ? text.replaceAll(key, '<redacted>') : text;
+}
+
+function createGeminiError(status, errorText) {
+  const payload = parseJsonSafe(errorText);
+  const apiError = payload?.error;
+  const googleStatus = apiError?.status || '';
+  const message = apiError?.message || errorText || 'Unknown Gemini API error';
+  const statusLabel = googleStatus ? ` (${googleStatus})` : '';
+  const error = new Error(`Gemini API error: ${status}${statusLabel} - ${sanitizeErrorText(message)}`);
+  error.status = status;
+  error.code = googleStatus;
+  error.details = sanitizeErrorText(message);
+  return error;
+}
+
+function buildGeminiUrl(apiKey) {
+  const modelPath = GEMINI_MODEL.startsWith('models/') ? GEMINI_MODEL : `models/${GEMINI_MODEL}`;
+  const url = new URL(`https://generativelanguage.googleapis.com/v1beta/${modelPath}:streamGenerateContent`);
+  url.searchParams.set('alt', 'sse');
+  url.searchParams.set('key', apiKey);
+  return url;
+}
+
+function getGeminiTextDelta(parsed) {
+  const parts = parsed?.candidates?.[0]?.content?.parts;
+  if (!Array.isArray(parts)) return '';
+
+  return parts
+    .map(part => (typeof part?.text === 'string' ? part.text : ''))
+    .join('');
+}
+
 function describeGeminiIssue(error) {
-  if (!process.env.GEMINI_API_KEY) {
-    return 'For full AI-powered responses, set GEMINI_API_KEY before starting the backend.';
+  if (!getGeminiApiKey()) {
+    return 'For full AI-powered responses, set GEMINI_API_KEY in .env, then restart the backend.';
   }
 
   if (!error) {
     return 'Gemini did not return a response for this message.';
   }
 
-  if (error.status === 429 || String(error.message).includes('429')) {
-    return 'Gemini is configured, but it returned a quota or rate-limit error. Try again later or use a key with available quota.';
+  const status = Number(error.status);
+
+  if (status === 400) {
+    return `Gemini rejected the request. Check GEMINI_MODEL in .env; the current model is "${GEMINI_MODEL}".`;
+  }
+
+  if (status === 401 || status === 403) {
+    return 'Gemini rejected the API key. Make sure GEMINI_API_KEY is valid and the Generative Language API is enabled for that Google Cloud project.';
+  }
+
+  if (status === 404) {
+    return `Gemini could not find the configured model "${GEMINI_MODEL}". Set GEMINI_MODEL to a model available to your key, then restart the backend.`;
+  }
+
+  if (status === 429 || String(error.message).includes('429')) {
+    return `Gemini is connected, but Google returned a quota or rate-limit error for "${GEMINI_MODEL}". Wait for quota to reset, enable billing or use a key with available Gemini quota, or switch GEMINI_MODEL to a model with available quota.`;
+  }
+
+  if (status === 503) {
+    return 'Gemini is temporarily overloaded. Try again in a moment.';
   }
 
   return 'Gemini is configured, but the request failed. Check backend.err.log for details.';
@@ -284,6 +362,10 @@ function describeGeminiIssue(error) {
 function describeLocalAiIssue(error) {
   if (LOCAL_AI_PROVIDER !== 'ollama') {
     return `Local AI provider "${LOCAL_AI_PROVIDER}" is not supported yet. Set LOCAL_AI_PROVIDER=ollama in .env.`;
+  }
+
+  if (!OLLAMA_BASE_URL || !OLLAMA_MODEL) {
+    return `Local AI mode is enabled but OLLAMA_BASE_URL or OLLAMA_MODEL is not set in .env.`;
   }
 
   if (!error) {
@@ -300,7 +382,7 @@ function describeLocalAiIssue(error) {
     String(error.message).toLowerCase().includes('subscription') ||
     String(error.message).toLowerCase().includes('upgrade')
   ) {
-    return `Nex is connected to Ollama, but ${OLLAMA_MODEL} requires an Ollama subscription. Upgrade at https://ollama.com/upgrade or switch OLLAMA_MODEL to a local model such as qwen2.5-coder.`;
+    return `Nex is connected to Ollama, but ${OLLAMA_MODEL} requires an Ollama subscription. Upgrade at https://ollama.com/upgrade or switch OLLAMA_MODEL to a local model.`;
   }
 
   return `Local AI mode is enabled, but Nex could not connect to Ollama at ${OLLAMA_BASE_URL}. Start Ollama, then run: ollama pull ${OLLAMA_MODEL}`;
@@ -512,7 +594,7 @@ async function handleChat(req, res) {
   let assistantContent = '';
   const firstName = profile?.first_name || '';
   const trimmedMessages = messages.slice(-10);
-  const geminiApiKey = process.env.GEMINI_API_KEY;
+  const geminiApiKey = getGeminiApiKey();
   const latestUserMessage = [...trimmedMessages].reverse().find(message => message.role === 'user')?.content || '';
   let searchResults = [];
   let searchError = null;
@@ -520,6 +602,7 @@ async function handleChat(req, res) {
   let geminiError = null;
   const searchedGoogle = ENABLE_GOOGLE_SEARCH && shouldSearchGoogle(latestUserMessage);
 
+  // ── Step 1: Google Search (if enabled) ──────────────────────────────────────
   if (searchedGoogle) {
     try {
       searchResults = await searchGoogle(latestUserMessage);
@@ -529,64 +612,53 @@ async function handleChat(req, res) {
     }
   }
 
-  if (LOCAL_AI_PROVIDER === 'ollama') {
-    try {
-      assistantContent = await streamOllamaResponse(res, trimmedMessages, firstName, searchResults);
-    } catch (error) {
-      localAiError = error;
-      console.error('Local Ollama failed, falling back:', error);
-    }
-  }
-
+  // ── Step 2: Gemini (if ENABLE_EXTERNAL_AI=true) ──────────────────────────────
+  // FIX: Gemini now runs FIRST when ENABLE_EXTERNAL_AI is true,
+  // skipping Ollama entirely to avoid RAM errors on low-spec machines.
   if (!assistantContent && ENABLE_EXTERNAL_AI && geminiApiKey) {
     try {
-      const searchContext = searchResults.length
-        ? `\n\nUse these Google search results as source context. Prefer them over memory when they are relevant, and include source links when helpful:\n\n${formatSearchResults(searchResults)}`
-        : '\n\nGoogle search context is not available for this message.';
-
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:streamGenerateContent?alt=sse&key=${geminiApiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            system_instruction: {
-              parts: [{
-                text: `You are Nex, a helpful, concise AI assistant created by Raphael Lucky Uke. If asked who created, made, or built you, say that Raphael Lucky Uke created you. When Google search results are provided, answer from them and be clear when the results do not fully answer the question.${searchContext}`,
-              }],
-            },
-            contents: convertToGeminiContents(trimmedMessages),
-            generationConfig: {
-              maxOutputTokens: 1024,
-              temperature: 0.6,
-              topK: 40,
-              topP: 0.92,
-            },
-          }),
-        },
-      );
+      const response = await fetch(buildGeminiUrl(geminiApiKey), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: {
+            parts: [{ text: buildSystemInstruction(firstName, searchResults) }],
+          },
+          contents: convertToGeminiContents(trimmedMessages),
+          generationConfig: {
+            maxOutputTokens: 1024,
+            temperature: 0.6,
+            topK: 40,
+            topP: 0.92,
+          },
+        }),
+      });
 
       if (!response.ok) {
         const errorText = await response.text();
-        const error = new Error(`Gemini API error: ${response.status} - ${errorText}`);
-        error.status = response.status;
-        throw error;
+        throw createGeminiError(response.status, errorText);
       }
 
       if (!response.body) {
         throw new Error('Gemini API response did not include a stream.');
       }
 
+      let buffer = '';
+
       for await (const chunk of response.body) {
-        const text = Buffer.from(chunk).toString('utf8');
-        for (const line of text.split('\n')) {
+        buffer += Buffer.from(chunk).toString('utf8');
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
           if (!line.startsWith('data: ')) continue;
           const data = line.slice(6).trim();
           if (!data) continue;
+          if (data === '[DONE]') break;
 
           try {
             const parsed = JSON.parse(data);
-            const delta = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
+            const delta = getGeminiTextDelta(parsed);
             if (delta) {
               assistantContent += delta;
               res.write(`data: ${JSON.stringify({ delta })}\n\n`);
@@ -602,12 +674,27 @@ async function handleChat(req, res) {
     }
   }
 
+  // ── Step 3: Ollama (only if external AI is disabled) ─────────────────────────
+  // FIX: Ollama only runs when ENABLE_EXTERNAL_AI=false and
+  // OLLAMA_BASE_URL + OLLAMA_MODEL are both set.
+  if (!assistantContent && !ENABLE_EXTERNAL_AI && LOCAL_AI_PROVIDER === 'ollama' && OLLAMA_BASE_URL && OLLAMA_MODEL) {
+    try {
+      assistantContent = await streamOllamaResponse(res, trimmedMessages, firstName, searchResults);
+    } catch (error) {
+      localAiError = error;
+      console.error('Local Ollama failed, falling back:', error);
+    }
+  }
+
+  // ── Step 4: Fallback ─────────────────────────────────────────────────────────
   if (!assistantContent) {
     assistantContent = searchResults.length || searchedGoogle
       ? generateSearchSummary(latestUserMessage, searchResults, searchError, geminiError)
       : isSimpleGreeting(latestUserMessage)
         ? generateFallbackResponse(trimmedMessages, firstName)
-        : describeLocalAiIssue(localAiError);
+        : ENABLE_EXTERNAL_AI
+          ? describeGeminiIssue(geminiError)
+          : describeLocalAiIssue(localAiError);
     await streamFallback(res, assistantContent);
   } else {
     res.write('data: [DONE]\n\n');
@@ -643,6 +730,9 @@ const server = http.createServer(async (req, res) => {
   sendJson(res, 404, { error: 'Not found' });
 });
 
-server.listen(PORT, '127.0.0.1', () => {
-  console.log(`Local Nex backend listening on http://127.0.0.1:${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Local Nex backend listening on http://0.0.0.0:${PORT}`);
+  console.log(`External AI (Gemini): ${ENABLE_EXTERNAL_AI ? '✅ enabled' : '❌ disabled'}`);
+  console.log(`Local AI (Ollama):    ${!ENABLE_EXTERNAL_AI && OLLAMA_BASE_URL ? '✅ enabled' : '❌ disabled'}`);
+  console.log(`Google Search:        ${ENABLE_GOOGLE_SEARCH ? '✅ enabled' : '❌ disabled'}`);
 });
