@@ -7,6 +7,7 @@
     "start": "powershell -ExecutionPolicy Bypass -File scripts/start.ps1",
     "dev": "vite",
     "backend": "node backend/local-functions-server.mjs",
+    "gemini:check": "node scripts/check-gemini.mjs",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
